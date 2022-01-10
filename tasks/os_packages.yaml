@@ -1,0 +1,19 @@
+- name: "Install http serwer"
+  yum:
+    name: httpd
+    state: latest
+- name: "Install EPEL and Remi repo for php" 
+  yum:
+    name: 
+    - https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    - https://rpms.remirepo.net/enterprise/remi-release-7.rpm
+    state: latest
+
+- name: "Install php"
+  yum:
+    name:
+    - php80
+    - php80-php
+    - php80-php-mysqlnd
+    - php80-php-pecl-mysql
+    state: latest

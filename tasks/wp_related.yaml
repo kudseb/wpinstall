@@ -1,0 +1,25 @@
+- name: " Download wordpress && extract wp"
+  unarchive:
+    src: https://pl.wordpress.org/latest-pl_PL.tar.gz
+    dest: /var/www
+    remote_src: yes
+
+- name: "www root exists"
+  file:
+    state: directory
+    path: /var/www/blog
+
+- name: "Copy vhost cfg"
+  copy:
+    src: files/blog-vhost.conf
+    dest: /etc/httpd/conf.d/blog.conf
+
+- name: "copy wp cfg"
+  template:
+    src: files/wp-config.php
+    dest: /var/www/wordpress/wp-config.php
+- name: "Reload apache"
+  systemd:
+    name: httpd
+    state: reloaded
+

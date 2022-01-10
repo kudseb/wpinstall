@@ -1,0 +1,34 @@
+- name: "Copy mariadb repo cfg"
+  copy:
+    src: files/mariadb.repo
+    dest: /etc/yum.repos.d/Mariadb.repo
+    
+- name: "Install mariadb"
+  yum:
+    #name: MariaDB-server,MariaDB-client
+    name: 
+    - MariaDB-server
+    - MariaDB-client
+    state: latest
+  
+- name: "Reload mariadb"
+  systemd:
+    name: mariadb
+    state: started
+
+- name: "isntall mysql releated modules"
+  yum:
+    name: MySQL-python
+    state: present
+
+- name: "create wp's db"
+  mysql_db:
+    name: "{{DB_NAME}}"
+    state: "present"
+
+- name: "create user && asing privileges"
+  mysql_user:
+    name: "{{DB_USER}}"
+    password: "{{DB_PSW}}"
+    priv: "{{DB_NAME}}.*:ALL"
+    state: present
